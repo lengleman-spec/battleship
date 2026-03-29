@@ -4,7 +4,7 @@
   "description": "Battleship project for The Odin Project",
   "type": "module",
   "scripts": {
-    "test": "jest"
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
@@ -18,9 +18,9 @@
   },
   "homepage": "https://github.com/lengleman-spec/battleship#readme",
   "devDependencies": {
-    "jest": "^29.7.0",
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "babel-jest": "^29.7.0"
+    "@babel/core": "^7.29.0",
+    "@babel/preset-env": "^7.29.2",
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0"
   }
 }
