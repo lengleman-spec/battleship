@@ -40,4 +40,32 @@ describe("Gameboard", () => {
     ]);
     expect(board.ships[0].ship).toBe(ship);
   });
+
+  test("registers a hit when attack matches ship coordinates", () => {
+    const board = new Gameboard();
+    const ship = new Ship(2);
+
+    board.placeShip(ship, [
+      [0, 0],
+      [0, 1],
+    ]);
+    board.receiveAttack([0, 0]);
+
+    expect(ship.hits).toBe(1); //Ship counter increases
+    expect(board.missedAttacks.length).toBe(0); // No missed attacks, so 0
+  });
+
+  test("records a missed attack when attack does not hit any ship", () => {
+    const board = new Gameboard();
+    const ship = new Ship(2);
+
+    board.placeShip(ship, [
+      [0, 0],
+      [0, 1],
+    ]);
+    board.receiveAttack([1, 1]);
+
+    expect(ship.hits).toBe(0); // No hits
+    expect(board.missedAttacks).toContainEqual([1, 1]); //Missed attack recorded
+  });
 });
