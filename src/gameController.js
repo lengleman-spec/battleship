@@ -28,6 +28,7 @@ computer.gameboard.placeShip(ship2, [
 
 const humanContainer = document.getElementById("human-board");
 const computerContainer = document.getElementById("computer-board");
+
 function renderBoard(board, container, showShips = false) {
   container.innerHTML = "";
 
@@ -63,10 +64,42 @@ function renderBoard(board, container, showShips = false) {
           const row = parseInt(square.dataset.row); // dataset values are strings, so we convert them to numbers using parseInt
           const col = parseInt(square.dataset.col);
 
+          const coordinate = [row, col];
+
+          // Prevent double clicks
+          const alreadyAttacked =
+            computer.gameboard.hitAttacks.some(
+              (c) => c[0] === row && c[1] === col,
+            ) ||
+            computer.gameboard.missedAttacks.some(
+              (c) => c[0] === row && c[1] === col,
+            );
+
+          if (alreadyAttacked) return; // Stop if already clicked
+
+          // Human attacks computer
           human.attack(computer.gameboard, [row, col]);
 
           renderBoard(human.gameboard, humanContainer, true);
           renderBoard(computer.gameboard, computerContainer);
+
+          // Check if computer lost
+          if (computer.gameboard.allShipsSunk()) {
+            alert("You win!");
+            return;
+          }
+
+          // Computer makes a random move:
+          computer.makeRandomMove(human.gameboard);
+
+          // Re-render human board again:
+          renderBoard(human.gameboard, humanContainer, true);
+
+          // Check if human lost:
+          if (human.gameboard.allShipsSunk()) {
+            alert("Computer wins!");
+            return;
+          }
         });
       }
     }

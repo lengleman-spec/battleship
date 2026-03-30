@@ -71,4 +71,15 @@ class Player {
     this.moves.push(coordinate);
     opponentBoard.receiveAttack(coordinate);
   }
+
+  makeRandomMove(opponentBoard) {
+    let row, col, coordinate;
+    do {
+      row = Math.floor(Math.random() * 10);
+      col = Math.floor(Math.random() * 10);
+      coordinate = [row, col];
+    } while (this.moves.some((c) => c[0] === row && c[1] === col));
+
+    this.attack(opponentBoard, coordinate);
+  }
 }
