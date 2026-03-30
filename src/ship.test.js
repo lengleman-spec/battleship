@@ -68,4 +68,21 @@ describe("Gameboard", () => {
     expect(ship.hits).toBe(0); // No hits
     expect(board.missedAttacks).toContainEqual([1, 1]); //Missed attack recorded
   });
+
+  test("returns true only when all ships are sunk", () => {
+    const board = new Gameboard();
+    const ship1 = new Ship(1);
+    const ship2 = new Ship(1);
+
+    board.placeShip(ship1, [[0, 0]]);
+    board.placeShip(ship2, [[1, 1]]);
+
+    expect(board.allShipsSunk()).toBe(false); // Initially no ships sunk
+
+    board.receiveAttack([0, 0]);
+    expect(board.allShipsSunk()).toBe(false); // First ship sunk, second still afloat
+
+    board.receiveAttack([1, 1]);
+    expect(board.allShipsSunk()).toBe(true); // Both ships hit, all sunk
+  });
 });
