@@ -62,5 +62,13 @@ class Player {
     this.moves = []; // an array to track coordinates this player has already attacked
   }
 
-  attack(opponentBoard, coordinate) {}
+  attack(opponentBoard, coordinate) {
+    if (
+      this.moves.some((c) => c[0] === coordinate[0] && c[1] === coordinate[1])
+    ) {
+      return;
+    }
+    this.moves.push(coordinate);
+    opponentBoard.receiveAttack(coordinate);
+  }
 }
