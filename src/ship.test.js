@@ -1,4 +1,5 @@
 import { Ship } from "../src/ship.js";
+import { Gameboard } from "../src/ship.js";
 
 describe("Ship class", () => {
   test("hit() increments the hits counter", () => {
@@ -19,5 +20,24 @@ describe("Ship class", () => {
     ship.hit();
     ship.hit();
     expect(ship.isSunk()).toBe(true);
+  });
+});
+
+describe("Gameboard", () => {
+  test("places a ship on the board", () => {
+    const board = new Gameboard();
+    const ship = new Ship(2);
+
+    board.placeShip(ship, [
+      [0, 0],
+      [0, 1],
+    ]);
+
+    expect(board.ships.length).toBe(1);
+    expect(board.ships[0].coordinates).toEqual([
+      [0, 0],
+      [0, 1],
+    ]);
+    expect(board.ships[0].ship).toBe(ship);
   });
 });
