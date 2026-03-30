@@ -13,10 +13,11 @@ export class Ship {
   }
 }
 
-class Gameboard {
+export class Gameboard {
   constructor() {
     this.ships = [];
     this.missedAttacks = [];
+    this.hitAttacks = [];
   }
 
   placeShip(ship, coordinates) {
@@ -37,6 +38,7 @@ class Gameboard {
       ) {
         shipObj.ship.hit();
         hit = true;
+        this.hitAttacks.push(coordinate);
         break;
       }
     }
@@ -52,3 +54,13 @@ class Gameboard {
 }
 
 export { Gameboard };
+
+class Player {
+  constructor(type) {
+    this.type = type; // human or computer
+    this.gameboard = new Gameboard(); // each player gets their own gameboard
+    this.moves = []; // an array to track coordinates this player has already attacked
+  }
+
+  attack(opponentBoard, coordinate) {}
+}
