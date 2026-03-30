@@ -9,6 +9,7 @@
 
 .board-container {
   display: flex;
+  flex-direction: row-reverse;
   justify-content: center;
   margin-top: 100px;
   gap: 50px;
