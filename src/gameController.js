@@ -108,3 +108,4 @@ function renderBoard(board, container, showShips = false) {
 
 renderBoard(human.gameboard, humanContainer, true);
 renderBoard(computer.gameboard, computerContainer);
+console.log(humanContainer, computerContainer);

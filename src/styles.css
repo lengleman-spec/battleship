@@ -1,0 +1,39 @@
+#human-board,
+#computer-board {
+  display: grid;
+  grid-template-columns: repeat(10, 30px);
+  grid-template-rows: repeat(10, 30px);
+  gap: 2px;
+  margin: 10px;
+}
+
+.board-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+  gap: 50px;
+}
+
+.square {
+  width: 30px;
+  height: 30px;
+  background-color: #b0c4de;
+  border: 1px solid #888;
+  cursor: pointer;
+}
+
+.square.ship {
+  background-color: #4caf50;
+}
+
+.square.hit {
+  background-color: red;
+}
+
+.square.miss {
+  background-color: lightgray;
+}
+
+.square:hover {
+  filter: brightness(90%);
+}

@@ -53,9 +53,7 @@ export class Gameboard {
   }
 }
 
-export { Gameboard };
-
-class Player {
+export class Player {
   constructor(type) {
     this.type = type; // human or computer
     this.gameboard = new Gameboard(); // each player gets their own gameboard
