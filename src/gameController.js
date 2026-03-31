@@ -3,12 +3,12 @@ import { Player, Gameboard, Ship } from "./ship.js";
 const human = new Player("human");
 const computer = new Player("computer");
 
+const shipsToPlace = [new Ship(2), new Ship(3)];
+let currentShipIndex = 0;
+let placingHorizontal = true;
+
 const ship1 = new Ship(2);
 const ship2 = new Ship(3);
-
-const shipsToPlace = [new Ship(2), new Ship(3)];
-
-let currentShipIndex = 0;
 
 computer.gameboard.placeShip(ship1, [
   [2, 2],
@@ -22,6 +22,14 @@ computer.gameboard.placeShip(ship2, [
 
 const humanContainer = document.getElementById("human-board");
 const computerContainer = document.getElementById("computer-board");
+const rotateButton = document.getElementById("rotate-button");
+
+rotateButton.addEventListener("click", () => {
+  placingHorizontal = !placingHorizontal;
+  rotateButton.textContent = placingHorizontal
+    ? "Rotate Ship (Horizontal)"
+    : "Rotate Ship (Vertical)";
+});
 
 humanContainer.addEventListener("click", handlePlacement);
 
@@ -36,11 +44,14 @@ function handlePlacement(e) {
 
   const ship = shipsToPlace[currentShipIndex];
 
-  // Calculate coords horizontally
+  // Calculate coords based on orientation
   const coordinates = [];
   for (let i = 0; i < ship.length; i++) {
-    if (col + i > 9) return; // Stop if ship would go off board
-    coordinates.push([row, col + i]);
+    const r = row + (placingHorizontal ? 0 : i);
+    const c = col + (placingHorizontal ? i : 0);
+
+    if (r > 9 || c > 9) return; // Out of bounds
+    coordinates.push([r, c]);
   }
 
   // Check for overlap with existing ships
@@ -144,4 +155,3 @@ function renderBoard(board, container, showShips = false) {
 
 renderBoard(human.gameboard, humanContainer, true);
 renderBoard(computer.gameboard, computerContainer);
-console.log(humanContainer, computerContainer);
