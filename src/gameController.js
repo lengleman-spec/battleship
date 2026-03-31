@@ -6,15 +6,9 @@ const computer = new Player("computer");
 const ship1 = new Ship(2);
 const ship2 = new Ship(3);
 
-human.gameboard.placeShip(ship1, [
-  [0, 0],
-  [0, 1],
-]);
-human.gameboard.placeShip(ship2, [
-  [1, 0],
-  [1, 1],
-  [1, 2],
-]);
+const shipsToPlace = [new Ship(2), new Ship(3)];
+
+let currentShipIndex = 0;
 
 computer.gameboard.placeShip(ship1, [
   [2, 2],
@@ -28,6 +22,48 @@ computer.gameboard.placeShip(ship2, [
 
 const humanContainer = document.getElementById("human-board");
 const computerContainer = document.getElementById("computer-board");
+
+humanContainer.addEventListener("click", handlePlacement);
+
+function handlePlacement(e) {
+  if (currentShipIndex >= shipsToPlace.length) return;
+
+  const square = e.target;
+  if (!square.classList.contains("square")) return;
+
+  const row = parseInt(square.dataset.row);
+  const col = parseInt(square.dataset.col);
+
+  const ship = shipsToPlace[currentShipIndex];
+
+  // Calculate coords horizontally
+  const coordinates = [];
+  for (let i = 0; i < ship.length; i++) {
+    if (col + i > 9) return; // Stop if ship would go off board
+    coordinates.push([row, col + i]);
+  }
+
+  // Check for overlap with existing ships
+  const overlap = human.gameboard.ships.some((s) =>
+    s.coordinates.some((c) =>
+      coordinates.some((coord) => coord[0] === c[0] && coord[1] === c[1]),
+    ),
+  );
+
+  if (overlap) return; // Stop if overlapping
+
+  // Place the ship
+  human.gameboard.placeShip(ship, coordinates);
+
+  // Rerender human baord to show ships
+  renderBoard(human.gameboard, humanContainer, true);
+
+  currentShipIndex++;
+
+  if (currentShipIndex === shipsToPlace.length) {
+    console.log("All ships placed! Ready to start the game");
+  }
+}
 
 function renderBoard(board, container, showShips = false) {
   container.innerHTML = "";
